@@ -1,0 +1,81 @@
+<%
+  function getDate(date){
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var dt = new Date(date);
+    var dateStr = dt.getDate() +'-'+ months[dt.getMonth()]+'-'+dt.getFullYear();
+    return dateStr;
+  }
+%>
+
+<%
+if(catData.Order.length <= 0){
+%>
+        <tr>
+          <td>
+              -
+          </td>
+          <td>
+              -
+          </td>
+          <td>
+              -
+          </td>
+          <td>
+              -
+          </td>
+          <td>
+              No Records found.
+          </td>
+          <td>
+              -
+          </td>
+          <td>
+              -
+          </td>
+          <td>
+             -
+          </td>
+          <td>
+             -
+          </td>
+        </tr>
+<%  
+}
+%>
+
+<%
+        catData.Order.forEach(function(data,index){
+      %>
+
+        <tr id="od_<%= data.Id %>">
+          <td><%= index + 1 %></td>
+          <td><%= data.Id %></td>
+          <td><%= getDate(data.OrderOn) %></td>
+          <td><%= data.Name %></td>
+          <td>
+            <div>
+              <div><strong><%= data.ShipingName %></strong></div>
+              <div><%= data.ShipingAddress %></div>
+              <div><%= data.ShipingLocality %></div>
+              <div><%= data.ShipingCity +", "+ data.ShipingState %></div>
+              <div><%= data.ShipingPincode %></div>
+              <div><%= data.ShipingPhone %></div>
+            </div>
+          </td>
+          <td>
+            <div><strong><%= data.DayName %></strong></div>
+            <div><%= data.SlotName %>-<%= data.TimeSlot %></div>
+          </td>
+          <td><%= data.OrderPrice %></td>
+          <td>
+            <span class="<%= (data.OrderStatus == 'Cancelled')? 'text-red' : 'text-green' %>"><%= data.OrderStatus %></span>
+          </td>          
+          <td>
+            <a class="label label-success rowViewInvoice" data-orderId="<%= data.Id %>"  target="_blank" data-toggle="modal" data-target="#modal-invoice" href="/cms/order/invoice/<%= data.Id %>">View Invoice</a>
+            <a class="label label-danger rowPrintInvoice" data-orderId="<%= data.Id %>"  target="_blank">Print Invoice</a>            
+            <a class="label label-warning orderChangeStatus" data-toggle="modal" data-target="#modal-changestatus" data-orderId="<%= data.Id %>"  target="_blank">Change Status</a>
+          </td>
+        </tr>
+      <%
+        })
+      %>

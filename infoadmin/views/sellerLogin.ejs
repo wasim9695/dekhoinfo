@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Seller Login |  CarryLush</title>
+  <link rel="stylesheet" href="/cms/css/custom_css.css">
+  <% include partials/cms/cssList %>
+</head>
+<body class="hold-transition login-page">
+    <section>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="login-box">
+            <div class="login-logo">
+            <a><b> CarryLush</b>CMS</a>
+          </div>
+              <div class="login-box-body">
+              <p class="login-box-msg">Sign in to start your session</p>
+              <form id="loginForm" onsubmit="return false" action="" method="post">
+                <div class="form-group has-feedback">
+                  <input required name="Email" type="email" class="form-control" placeholder="Email">
+                  <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                  <input required name="Password" type="password" class="form-control" placeholder="Password">
+                  <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                  <div class="col-xs-8"></div>
+                  <div class="col-xs-4">
+                    <button id="SignIn" type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                  </div>
+                </div>
+              </form>
+              <!--a href="/forgotPassword">I forgot my password</a><br-->
+              <a href="/sellerRegistration" class="text-center">Register a new seller</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+<% include partials/cms/jsList %>
+<script type="text/javascript">
+  var sellerLogin = (function(){
+    /*Main Functions*/
+    var refreshAll = function(){
+      setTimeout(function(){
+        location.reload();
+      } , 1000);
+    }
+    var getAjaxResponse = function(Url,Data,method,callbackFun){
+      $.ajax({
+        method: method,
+        url: Url,
+        data: Data
+      }).done(function( msg ) {
+        callbackFun(msg);
+      });
+    }
+    var resMethod = function(data){
+      if(data!=null){
+        if(data.status){
+          window.location = '/cms';
+        }else{
+          alert(data.message);
+        }
+      }
+    }
+    var sellerLogin = function(_this){
+      var data = {};
+      data = _this.parents('form#loginForm').serializeArray();
+      if(data[0].value.length > 1 && data[1].value.length > 1){
+        getAjaxResponse("/authenticateSeller" , data ,"post", resMethod);
+      }
+    }
+
+    /*Binding Functions*/
+    var bindEvent = (function(){
+      /*Registration Step1*/
+      $('#SignIn').on('click' , function(){
+        sellerLogin($(this));
+      })
+    })();
+  });
+  sellerLogin();
+</script>
+</body>
+</html>

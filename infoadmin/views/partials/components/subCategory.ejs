@@ -1,0 +1,151 @@
+<div class="box">
+  <div class="box-header">
+    <h3 class="box-title"><%= title %></h3>
+  </div>
+  <div class="box-body">
+    <div class="nav-tabs-custom">
+      <ul class="nav nav-tabs pull-right">
+        <%
+          catData.Category.forEach(function(data,index){
+        %>
+          <li class="<%= (index == 0)? "active" : "" %>"><a href="#tab_<%= data.Id %>" data-toggle="tab" aria-expanded="<%= (index == 0)? "true" : "false" %>"><%= data.Name %></a></li>
+        <%
+          })
+        %>
+      </ul>
+      <div class="tab-content">
+        <%
+          catData.Category.forEach(function(catD , index){
+        %>
+          <div class="tab-pane <%= (index == 0)? "active" : "" %>" id="tab_<%= catD.Id %>">
+            <div class="rowPad">
+              <span data-toggle="modal" data-categoryId="<%= catD.Id %>" data-target="#modal-success" class="label label-success addNewSubCat">+ Add New SubCategory</span>
+            </div>
+            <div id="example<%= index %>_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+               <div class="row">
+                  <div class="col-sm-12">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th style="width:100px;">Name</th>
+                          <th>Description</th>
+                          <th class="action-col">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                           <%
+                             catData.SubCategory.forEach(function(scData){
+                               if(scData.CategoryId == catD.Id){
+                           %>
+                           <tr id="subcat_<%= scData.Id %>" role="row" class="even">
+                             <td class="catName">
+                               <%= scData.Name %>
+                             </td>
+                             <td class="catDesc">
+                               <%= scData.Description %>
+                             </td>
+                              <td>
+                                <span data-catId="<%= scData.Id %>" data-toggle="modal" data-target="#modal-warning" class="label label-warning editSubCat">Edit</span>
+                                <span data-catId="<%= scData.Id %>" data-toggle="modal" data-target="#modal-danger" class="label label-danger deleteSubCat">Delete</span>
+                              </td>
+                           </tr>
+                           <%
+                               }
+                             });
+                           %>
+                      </tbody>
+                  </table>
+                  </div>
+               </div>
+            </div>
+          </div>
+        <%
+          })
+        %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--model popup-->
+<div class="modal modal-warning fade" id="modal-warning" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Edit Sub Category</h4>
+      </div>
+      <div class="modal-body">
+        <form id="editSubCategoryForm" role="form">
+          <input type="hidden" class="form-control" id="editCatId" placeholder="Enter email">
+      <div class="box-body">
+        <div class="form-group">
+          <label for="exampleInputEmail1">SubCategory</label>
+          <input type="email" class="form-control" id="editCatName" placeholder="">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea class="form-control" rows="3" id="editCatDesc" placeholder=""></textarea>
+        </div>
+      </div>
+    </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+        <button id="editSubCategory" type="button" class="btn btn-outline">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal modal-danger fade" id="modal-danger" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Delete Sub Category</h4>
+      </div>
+      <div class="modal-body">
+        <form id="deleteSubCategoryForm" role="form">
+          <p>Are you sure you want to delete this SubCategory?</p>
+          <input type="hidden" class="form-control" id="deleteCatId" placeholder="Enter email">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+        <button id="deleteSubCategory" type="button" class="btn btn-outline">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal modal-success fade" id="modal-success" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">Add Sub Category</h4>
+        </div>
+        <div class="modal-body">
+      <form id="newSubCategoryForm" role="form">
+        <input type="hidden" name="CategoryId" class="form-control" id="newCatId" placeholder="">
+        <div class="box-body">
+          <div class="form-group">
+            <label for="exampleInputEmail1">SubCategory</label>
+            <input type="text" name="Name" class="form-control" id="newCatName" placeholder="Enter new SubCategory name">
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea name="Description" id="newCatDesc" class="form-control" rows="3" placeholder="SubCategory description"></textarea>
+          </div>
+        </div>
+      </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+          <button id="createNewSubCategory" type="button" class="btn btn-outline">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

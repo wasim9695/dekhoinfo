@@ -1,0 +1,435 @@
+<%
+  var catData = {};
+  if(!slotData){}else{
+    catData = slotData;
+  }
+%>
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title> CarryLush Application Management | Dashboard</title>
+      <% include partials/cms/cssList %>
+   </head>
+   <body class="hold-transition skin-blue sidebar-mini">
+      <div class="wrapper">
+         <% include partials/cms/header %>
+         <%- include('partials/cms/leftNav',{catData : catData}) %>
+         <!-- Content Wrapper. Contains page content -->
+         <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+               <h1>
+                 Delivery Slot Setting
+                  <small></small>
+               </h1>
+               <ol class="breadcrumb">
+                  <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                  <li class="active">Delivery Slot Setting</li>
+               </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+               <div class="row">
+                 <div class="col-xs-8">
+                   <div class="box">
+                     <div class="box-header">
+                       <h3 class="box-title">Pincode <span>(<%= catData.Pincode.length %>)</span></h3>
+                       <div class="box-tools">
+                         <span data-toggle="modal" data-target="#modal-addPincode" class="label label-success">+ Add New Pincode</span>
+                       </div>
+                     </div>
+                     <!-- /.box-header -->
+                     <div class="box-body table-responsive">
+                       <table id="example1" role="grid" aria-describedby="example1_info" class="table table-hover dataTable">
+                         <thead>
+                           <tr>
+                             <th>Pincode</th>
+                             <th>Day</th>
+                             <th>Delivery Slot</th>
+                             <th class="action-col">Action</th>
+                           </tr>
+                         </thead>
+                         <tbody>
+                         <% if(catData){
+                              catData.Pincode.forEach(function(cat){
+                          %>
+                                <tr id="<%= cat.Id %>" class="clickableRow pincode">
+                                  <!-- <td><= cat.Id %></td> -->
+                                  <td class="pincode"><%= cat.Pincode %></td>
+                                  <td data-dayId="<%= cat.DeliveryDayId %>" class="dayaname"><%= cat.DayName %></td>
+                                  <td class="slotId" data-slotId="<%= cat.DeliverySlotId %>">
+                                    <ul class="normalList">
+                                    <li>
+                                      <div class="elipsis"><%= cat.SlotName+" : "+cat.TimeSlot %></div>
+                                    </li>
+                                    </ul>
+                                  </td>
+                                  <td>
+                                    <span data-catId="<%= cat.Id %>" data-toggle="modal" data-target="#modal-editPincode" class="label label-warning editPincode">Edit</span>
+                                    <span data-catId="<%= cat.Id %>" data-toggle="modal" data-target="#modal-deletePincode" class="label label-danger deletePincode">Delete</span>
+                                  </td>
+                                </tr>
+                        <%
+                              });
+                            }
+                        %>
+                       </tbody></table>
+                     </div>
+                     <!-- /.box-body -->
+                   </div>
+                 </div>
+                 <div class="col-xs-4">
+                   <div class="box">
+                     <div class="box-header">
+                       <h3 class="box-title">Delivery Time Slot</span></h3>
+                       <div class="box-tools">
+                         <span data-toggle="modal" data-target="#modal-addSlot" class="label label-success">+ Add New Slot</span>
+                       </div>
+                     </div>
+                     <!-- /.box-header -->
+                     <div class="box-body table-responsive no-padding">
+                       <table class="table table-hover">
+                         <thead>
+                           <tr>
+                             <th>Slot Name</th>
+                             <th>Slot Timing</th>
+                             <th class="action-col">Action</th>
+                           </tr>
+                         </thead>
+                         <tbody>
+                         <% if(catData){
+                           catData.DeliverySlot.forEach(function(cat){
+                          %>
+                          <tr id="<%= cat.Id %>" class="clickableRow slot">
+                            <!-- <td><= cat.Id %></td> -->
+                            <td class="SlotName"><p class="elipsis"><%= cat.SlotName %></p></td>
+                            <td class="TimeSlot"><p class="elipsis"><%= cat.TimeSlot %></p></td>
+                            <td>
+                              <span data-catId="<%= cat.Id %>" data-toggle="modal" data-target="#modal-editSlot" class="label label-warning editSlot">Edit</span>
+                              <span data-catId="<%= cat.Id %>" data-toggle="modal" data-target="#modal-deleteSlot" class="label label-danger deleteSlot">Delete</span>
+                            </td>
+                          </tr>
+                          <%
+                        });
+                         }
+                         %>
+                       </tbody></table>
+                     </div>
+                     <!-- /.box-body -->
+                   </div>
+                 </div>
+               </div>
+            </section>
+            <!-- /.content -->
+         </div>
+         <!-- /.content-wrapper -->
+         <% include partials/cms/footer %>
+         <!--  include partials/cms/rightNav  -->
+      </div>
+      <% include partials/cms/jsList %>
+      <!--model popup-->
+      <div class="modal modal-warning fade" id="modal-editSlot" style="display: none;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+              <h4 class="modal-title">Edit Delivery Slot</h4>
+            </div>
+            <div class="modal-body">
+              <form id="editSlotForm" role="form">
+                <input type="hidden" class="form-control" id="editSlotId">
+            <div class="box-body">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Slot Name</label>
+                <input type="text" class="form-control" id="editSlotName">
+              </div>
+              <div class="form-group">
+                <label>Create Slot</label>
+                <div class="row">
+                  <div class="col-xs-6">
+                    <label>From Time</label>
+                    <select  class="form-control" name="fromTime">
+                      <option value="0">Choose Hours</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <select  class="form-control" name="fromAmPm">
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </select>
+                  </div>
+                  <div class="col-xs-6">
+                    <label>To Time</label>
+                    <select  class="form-control"  name="endTime">
+                      <option value="0">Choose Hours</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <select  class="form-control" name="endAmPm">
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+              <button id="editSlot" type="button" class="btn btn-outline">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal modal-danger fade" id="modal-deleteSlot" style="display: none;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+              <h4 class="modal-title">Delete Delivery Slot</h4>
+            </div>
+            <div class="modal-body">
+              <form id="deleteSlotForm" role="form">
+                <p>Are you sure you want to delete this delivery slot?</p>
+                <input type="hidden" class="form-control" id="deleteSlotId" >
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+              <button id="deleteSlot" type="button" class="btn btn-outline">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal modal-success fade" id="modal-addSlot" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Add Delivery Slot</h4>
+              </div>
+              <div class="modal-body">
+            <form id="newSlotForm" role="form">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="addSlotName">Slot Name</label>
+                  <input type="text" name="slotname" class="form-control" id="addSlotName" placeholder="">
+                </div>
+                <div class="form-group">
+                  <label>Create Slot</label>
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <label>From Time</label>
+                      <select  class="form-control" name="fromTime">
+                        <option value="0">Choose Hours</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                      </select>
+                      <select  class="form-control" name="fromAmPm">
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                      </select>
+                    </div>
+                    <div class="col-xs-6">
+                      <label>To Time</label>
+                      <select  class="form-control"  name="endTime">
+                        <option value="0">Choose Hours</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                      </select>
+                      <select  class="form-control" name="endAmPm">
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                <button id="createNewSlot" type="button" class="btn btn-outline">Save changes</button>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <div class="modal modal-warning fade" id="modal-editPincode" style="display: none;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+              <h4 class="modal-title">Edit Pincode</h4>
+            </div>
+            <div class="modal-body">
+              <form id="editPincodeForm" role="form">
+                <input type="hidden" class="form-control" id="editPincodeId">
+            <div class="box-body">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Pincode</label>
+                <input type="text" maxlength="6" class="form-control" id="editPincodeName" placeholder="">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Choose Delivery Day</label>
+                <select class="form-control" name="DeliveryDayId">
+                    <% if(catData){
+                      catData.DeliveryDay.forEach(function(cat){
+                     %>
+                        <option value="<%= cat.Id %>"><%= cat.DayName %></option>
+                     <%
+                       });
+                     }
+                     %>
+                  </select>
+              </div>
+              <div class="form-group">
+                <label>Choose Delivery Slot(Multiple)</label>
+                <select class="form-control" name="DeliverySlotId">
+                  <% if(catData){
+                    catData.DeliverySlot.forEach(function(cat){
+                   %>
+                      <option value="<%= cat.Id %>"><%= cat.SlotName+" : "+cat.TimeSlot %></option>
+                   <%
+                     });
+                   }
+                   %>
+                </select>
+              </div>
+            </div>
+          </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+              <button id="editPincode" type="button" class="btn btn-outline">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal modal-danger fade" id="modal-deletePincode" style="display: none;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Delete Pincode</h4>
+            </div>
+            <div class="modal-body">
+              <form id="deletePincodeForm" role="form">
+                <p>Are you sure you want to delete this pincode?</p>
+                <input type="hidden" class="form-control" id="deletePincodeId">
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+              <button id="deletePincode" type="button" class="btn btn-outline">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal modal-success fade" id="modal-addPincode" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Add Pincode</h4>
+              </div>
+              <div class="modal-body">
+            <form id="newPincodeForm" role="form">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Pincode</label>
+                  <input type="number" name="Pincode" class="form-control" id="newPincode" placeholder="Enter Pincode">
+                </div>
+                <div class="form-group">
+                  <label>Choose Delivery Day</label>
+                  <div>
+                  <select multiple="multiple" class="form-control" name="DeliveryDayId">
+                    <% if(catData){
+                      catData.DeliveryDay.forEach(function(cat){
+                     %>
+                        <option value="<%= cat.Id %>"><%= cat.DayName %></option>
+                     <%
+                       });
+                     }
+                     %>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Choose Delivery Slot(Multiple)</label>
+                  <div>
+                  <select multiple="multiple" class="form-control" name="DeliverySlotId">
+                    <% if(catData){
+                      catData.DeliverySlot.forEach(function(cat){
+                     %>
+                        <option value="<%= cat.Id %>"><%= cat.SlotName+" : "+cat.TimeSlot %></option>
+                     <%
+                       });
+                     }
+                     %>
+                  </select>
+                  </div>
+                </div>
+              </div>
+            </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                <button id="createNewPincode" type="button" class="btn btn-outline">Save changes</button>
+              </div>
+            </div>
+          </div>
+      </div>
+
+   </body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "name": "carrylush",
+  "version": "1.0.0",
+  "description": "This is an ecommerce project for selling stuff online",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "keyword"
+  ],
+  "author": "Usman Arif",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.1",
+    "body-parser": "^1.18.2",
+    "compression": "^1.7.3",
+    "cors": "^2.8.4",
+    "crypto": "^1.0.1",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "express-fileupload": "^0.4.0",
+    "express-sanitized": "^0.5.1",
+    "express-sanitizer": "^1.0.2",
+    "express-session": "^1.15.6",
+    "imgur-node-api": "^0.1.0",
+    "json2xls": "^0.1.2",
+    "method-override": "^2.3.10",
+    "mysql": "^2.15.0",
+    "npm": "^6.9.0",
+    "sendotp": "^1.2.8"
+  }
+}

@@ -1,0 +1,103 @@
+<%
+  var subtotal = 0; 
+  var catData = {};
+  if(!cmsData){}else{
+    catData = cmsData;
+  }
+  function getDate(date){
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var dt = new Date(date);
+    var dateStr = dt.getDate() +'-'+ months[dt.getMonth()]+'-'+dt.getFullYear();
+    return dateStr;
+  }
+%>
+<section class="invoice">
+    <table class="tbl_invoice table table-bordered">
+      <tr>
+        <td>
+          <address class="text-center">
+            <img style="margin-bottom:10px" alt="" src="/cms/images/organiclogo.svg" />
+            <p>Kh. No. 78/1-8, Bankner Villege(Near Narella), New Delhi - 110039</p>
+            <p><i class="fa fa-phone"></i><i class="fa fa-chat"></i> 8750900164 | <strong>website: </strong><a href="http://www. CarryLush.in">www. CarryLush.in</a></p>
+          </address>
+        </td>
+        <td style="vertical-align:middle">
+          <b>Order ID:</b> <%= catData.Invoice[0].Id %><br>
+          <b>Date:</b> <%= getDate(new Date())%>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <p>
+            <strong>Name:</strong><span><%= catData.Invoice[0].CustomerName %></span>
+          </p>
+          <p>
+            <strong>Address: </strong> <span>
+            <%= catData.Invoice[0].ShipingAddress %></span>, <span><%= catData.Invoice[0].Phone %></span>, <span><%= catData.Invoice[0].Email %></span>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="vegetable-items">
+          <table class="table no-border">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th width="70%">Vegetables</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%  
+              catData.Invoice.forEach(function(data,index){
+              subtotal += (data.Qty * data.OfferPrice);
+              %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= data.ProductName %></td>
+                <td><%= parseInt(data.Qty * data.Weight) +' '+ data.WeightUnit %></td>
+                <td>&#8377; <%= data.OfferPrice %></td>
+                <td>&#8377; <%= data.Qty * data.OfferPrice %></td>
+              </tr>
+              <%})%>
+            </tbody>
+          </table>
+          </div>
+        </td>
+      </tr>
+      <tr>
+          <td  style="vertical-align: middle;">
+            <p class="text-center">Thank you for supporting your family farmer</p>
+          </td>
+          <td>
+            <table class="table no-border">
+              <tr>
+                <th>Total: </th>
+                <td><strong style="color:green">&#8377; <%= subtotal %></strong></td>
+              </tr>
+            </table>
+          </td>
+      </tr>
+      <tr>
+          <td colspan="2">
+            <table class="table no-border">
+              <tr>
+                <td>
+                  <p>
+                    <strong>E. &amp; O. E,</strong>
+                  </p>
+                  <p>1. No Return or exchange after acceptance of Goods</p>
+                  <p>2. Subject to Delhi jurisdiction only</p>
+                </td>
+                <td style="text-align:center;vertical-align: middle;">
+                  <span>for </span><strong> CarryLush</strong>
+                </td>
+              </tr>
+            </table>
+          </td>
+      </tr>
+    </table>
+</section>

@@ -1,0 +1,149 @@
+<%
+  function getDate(date){
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var dt = new Date(date);
+    var dateStr = dt.getDate() +'-'+ months[dt.getMonth()]+'-'+dt.getFullYear();
+    return dateStr;
+  }
+%>
+<div class="box">
+  <div class="box-header">
+    <button id="exportOrderData" type="button" class="btn btn-warning">Export Order Data in Excel</button>
+    <div class="date-range-pic-for-order">
+      <table>
+        <tr>
+          <td><label>Select Date Range for Orders:</label></td>
+          <td>
+            <div class="input-group">
+              <button type="button" class="btn btn-default pull-right" id="daterange-btn">
+                <span>
+                  <i class="fa fa-calendar"></i> Date range picker
+                </span>
+                <i class="fa fa-caret-down"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>    
+  </div>
+  <div class="box-body table-responsive">
+    <table id="example11" class="table table-hover">
+      <thead><tr>
+        <th style="width:5px;">SN.</th>
+        <th style="width:20px;">Order Id</th>
+        <th style="width:200px;">Order On</th>
+        <th style="width:200px;">Customer</th>
+        <th style="width:200px;">Shiping Address</th>
+        <th style="width:200px;">Delivery Slot</th>
+        <th style="width:100px;">Total Price</th>
+        <th style="width:100px;">Status</th>
+        <% if(title.indexOf('Recent') == -1){%>
+        <th style="width:100px;">Action</th>
+        <%}%>
+      </tr>
+      </thead>
+      <tbody>
+      <%
+        catData.Order.forEach(function(data,index){
+      %>
+        <tr id="od_<%= data.Id %>">
+          <td><%= index + 1 %></td>
+          <td><%= data.Id %></td>
+          <td><%= getDate(data.OrderOn) %></td>
+          <td><%= data.Name %></td>
+          <td>
+            <div>
+              <div><strong><%= data.ShipingName %></strong></div>
+              <div><%= data.ShipingAddress %></div>
+              <div><%= data.ShipingLocality %></div>
+              <div><%= data.ShipingCity +", "+ data.ShipingState %></div>
+              <div><%= data.ShipingPincode %></div>
+              <div><%= data.ShipingPhone %></div>
+            </div>
+          </td>
+          <td>
+            <div><strong><%= data.DayName %></strong></div>
+            <div><%= data.SlotName %>-<%= data.TimeSlot %></div>
+          </td>
+          <td><%= data.OrderPrice %></td>
+          <td>
+            <span class="<%= (data.OrderStatus == 'Cancelled')? 'text-red' : 'text-green' %>"><%= data.OrderStatus %></span>
+          </td>
+          <% if(title.indexOf('Recent') == -1){%>
+          <td>
+            <a class="label label-success rowViewInvoice" data-orderId="<%= data.Id %>"  target="_blank" data-toggle="modal" data-target="#modal-invoice" data-href="/cms/order/invoice/<%= data.Id %>">View Invoice</a>
+            <a class="label label-danger rowPrintInvoice" data-orderId="<%= data.Id %>"  target="_blank">Print Invoice</a>
+            <a class="label label-warning orderChangeStatus" data-toggle="modal" data-target="#modal-changestatus" data-orderId="<%= data.Id %>"  target="_blank">Change Status</a>
+          </td>
+          <%}%>
+        </tr>
+      <%
+        })
+      %>
+    </tbody></table>
+  </div>
+</div>
+<input type="hidden" id="printmyinvoiceId" value="" />
+<iframe src="" id="printmyinvoice" style="height: 0px;border: 0px;position: fixed;bottom: -2px;"></iframe>
+
+
+<div class="modal fade in invoice-model" id="modal-invoice" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Invoice Details</h4>
+    </div>
+    <div id="invoiceContents" class="modal-content">
+      <div class="modal-body">
+      </div>
+    </div>
+    <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <% if(catData.Coupons != null){%>
+            <span class="applycoupon-sec pull-right">
+              <select  class="form-control" id="managerCouponCode" name="Type">
+                <%
+                  catData.Coupons.forEach(function(data,index){
+                %>
+                    <option value="<%= data.CouponCode %>"><%= data.CouponCode +' '+data.Discount+'% Off' %></option>
+                <%
+                  });
+                %>
+              </select>
+              <button id="applyCouponCode" type="button" class="btn btn-success">Apply Coupon</button>
+
+            </span>
+            <%}%>
+
+              <button id="btnDownloadPDF" type="button" class="btn btn-primary"><i class="fa fa-print"></i> Print Invoice</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal modal-warning fade in" id="modal-changestatus" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Change Order Status</h4>
+    </div>
+    <div id="invoiceContents" class="modal-content">
+      <div class="modal-body">
+      <form id="changeOrderStatusForm" role="form">
+          <div class="box-body">
+            <input type="hidden" name="OrderId" class="form-control" id="ordOrderId">
+            <div class="form-group" id="cancellableProductList">
+               
+            </div>
+          </div>            
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+      <button id="btnChangeOrderStatus" type="button" class="btn btn-outline">Save Changes</button>
+    </div>
+  </div>
+</div>

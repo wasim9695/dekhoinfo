@@ -1,0 +1,114 @@
+<%
+  var catData = {};
+  var PCount = 0;
+
+  if(!cmsData){}else{
+    catData = cmsData;
+    PCount = catData.Product.length;
+  }
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> CarryLush Application Management | Dashboard</title>
+  <% include partials/cms/cssList %>
+  <style>
+     #sortable {list-style-type: none; margin: 0; padding: 0; width: 100%;}
+     #sortable li{cursor: move;}
+     #sortable li:nth-child(even) {background: #ebebeb;}
+     #sortable table{margin: 0;}
+     #sortable table td{vertical-align: middle;}
+   </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+  <% include partials/cms/header %>
+  <%- include('partials/cms/leftNav',{catData : catData}) %>
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        Change Product Display Sequence
+      </h1>
+      <ol class="breadcrumb">
+        <li><a><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a><i class="fa fa-dashboard"></i> Product</a></li>
+        <li class="active">Product Sequence</li>
+      </ol>
+    </section>
+    <section class="content">      
+      <div class="row">
+        <div class="col-md-12">
+         <div class="box">
+         <div class="box-header with-border">
+          <span class="pull-left">
+              <select class="form-control" name="categoryShorting" id="categoryShorting">
+                
+                    <option value="0">--Choose Category--</option>
+                    <%
+                       catData.Category.forEach(function(cData){
+                     %>
+                        <option value="<%= cData.Id %>"><%= cData.Name %></option>
+                     <%
+                       });
+                     %>
+              </select>
+          </span>
+          <span class="pull-right">
+            <button id="editProductSequence" type="button" class="btn btn-warning">Save changes</button>
+         </span>
+        </div>           
+           <div class="box-body">
+            <ul id="sortable">
+<%
+                             catData.Product.forEach(function(pData){
+                           %>
+              <li class="ui-state-default" data-categoryId="<%= pData.CategoryId %>" data-productId="<%= pData.Id %>">
+                  <table  class="table no-border" role="grid">
+                     <tr>
+                        
+                           <tr id="prd_<%= pData.Id %>"  role="row" class="even">
+                              <td style="width: 30px;">
+                                 <span class="handle ui-sortable-handle">
+                                 <i class="fa fa-ellipsis-v"></i>
+                                 <i class="fa fa-ellipsis-v"></i>
+                               </span>
+                              </td>
+                             <td style="width:60px;">                              
+                               <img src="<%= (pData.ImageName != null) ? pData.ImageName : '/cms/images/Products/default-product-img.png'%>" align="left" style="margin-right:10px;height:50px;width:50px;"/>
+                             </td>
+                              <td class="prdName" class="sorting_1">
+                                <%= pData.Name %>
+                              </td>
+                              <td style="width:60px;" class="prdUnit"><%= pData.Unit %></td>
+                              <td style="width:60px;" class="prdQuantity"><%= pData.Quantity %></td>
+                              <td style="width:60px;" class="prdPrice"><%= pData.Price %></td>                              
+                           </tr>
+                           
+                     </tr>
+                  </table>
+              </li>
+<%
+                              
+                             });
+                           %>
+            </ul>
+           </div>
+         </div>
+         
+        </div>
+     </div>
+    </section>
+  </div>
+  <% include partials/cms/footer %>
+</div>
+<% include partials/cms/jsList %>
+<script>
+  $( function() {
+    $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
+  } );
+</script>
+</body>
+</html>

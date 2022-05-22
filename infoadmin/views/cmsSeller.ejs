@@ -1,0 +1,51 @@
+<%
+  var catData = {};
+  if(!sellerData){}else{
+    catData = sellerData;
+  }
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> CarryLush Application Management | Dashboard</title>
+  <% include partials/cms/cssList %>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+  <% include partials/cms/header %>
+  <%- include('partials/cms/leftNav',{catData : catData}) %>
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        Sellers
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Seller</li>
+      </ol>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <%- include('partials/components/seller',{catData : catData , title : "Sellers Information"}) %>
+        </div>
+      </div>
+    </section>
+  </div>
+  <% include partials/cms/footer %>
+</div>
+<% include partials/cms/jsList %>
+<script>
+   $(function () {
+     $('#example1').DataTable({
+       'lengthChange': true,
+       'searching'   : true,
+       'ordering'    : true,
+     })
+   })
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<%
+  var catData = {};
+  var OCount = 0, PCount = 0, SCount = 0,CCount = 0,SubCCount = 0,CatName="";
+
+  if(!cmsData){}else{
+    catData = cmsData;
+    OCount = catData.Order.length;
+    PCount = catData.Product.length;
+    SCount = catData.Seller.length;
+    CCount = catData.Customer.length;
+    SubCCount = catData.SubCategory.length;
+  }
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> CarryLush Application Management | Dashboard</title>
+  <% include partials/cms/cssList %>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+  <% include partials/cms/header %>
+  <%- include('partials/cms/leftNav',{catData : catData}) %>
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        <%
+        var catName = "";
+        catData.Category.forEach(function(data){
+          if(data.Id == catId){
+            catName = data.Name;
+        %>
+          <%= catName %>
+        <%
+          }
+        })
+        %>
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a><i class="fa fa-dashboard"></i> Product</a></li>
+        <li class="active"><%= catName %></li>
+      </ol>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3><%= SCount %></h3>
+              <p>Total Seller</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3><%= PCount %></h3>
+              <p>Total Product</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer">Add Subcategory<i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3><%= SubCCount %></h3>
+              <p>Total Subcategory</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3><%= OCount %></h3>
+              <p>Total Order</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <%- include('partials/components/product',{catData : catData , title : "Total Product"}) %>
+        </div>
+      </div>
+      <%
+        if(catData.Profile.AccessType == "Admin"){
+      %>
+      <div class="row">
+        <div class="col-md-12">
+          <%- //include('partials/components/seller',{catData : catData , title : "Total Seller"}) %>
+        </div>
+      </div>
+      <%}%>
+      <div class="row">
+        <div class="col-md-12">
+          <%- //include('partials/components/order',{catData : catData , title : "Total Order"}) %>
+        </div>
+      </div>
+    </section>
+  </div>
+  <% include partials/cms/footer %>
+</div>
+<% include partials/cms/jsList %>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+      <li class="header">MAIN NAVIGATION</li>
+      <%
+        if(catData.Profile.AccessType == "Admin"){
+      %>
+      <li><a href="/cms/category"><i class="fa fa-circle-o text-red"></i> <span>Category</span></a></li>
+      <li><a href="/cms/subcategory"><i class="fa fa-circle-o text-aqua"></i> <span>Sub Category</span></a></li>
+      <li class="treeview menu-open">
+        <a href="/cms/product">
+          <i class="fa fa-circle-o text-yellow"></i>
+          <span>Product Listing</span>
+          <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+        </a>
+        <ul class="treeview-menu" style="display:block;">
+          <%
+          if(catData.Category.length > 0){
+            catData.Category.forEach(function(cat){
+          %>
+            <li>
+              <a href="/cms/category/<%= cat.Id %>"><i class="fa fa-circle-o"></i> <%= cat.Name %></a>
+            </li>
+          <%
+            });
+          }
+          %>
+        </ul>
+      </li>
+      <li><a href="/cms/productSequence"><i class="fa fa-circle-o text-red"></i> <span>Product Sequence</span></a></li>
+      <li><a href="/cms/seller"><i class="fa fa-circle-o text-aqua"></i> <span>Seller</span></a></li>
+      <li><a href="/cms/customer"><i class="fa fa-circle-o text-red"></i> <span>Customers</span></a></li>
+      <li><a href="/cms/order"><i class="fa fa-circle-o text-aqua"></i> <span>Orders</span></a></li>
+      <li><a href="/cms/deliveryslot"><i class="fa fa-circle-o text-red"></i><span>Delivery Slot</span></a></li>
+      <li><a href="/cms/banner"><i class="fa fa-circle-o text-aqua"></i> <span>Banner Settings</span></a></li>
+      <li><a href="/cms/coupons"><i class="fa fa-circle-o text-yellow"></i> <span>Coupons</span></a></li>
+      <%
+    }else if(catData.Profile.AccessType == "Manager"){
+    %>
+      <li><a href="/cms/order"><i class="fa fa-circle-o text-red"></i> <span>Orders</span></a></li>
+    <%
+    }else{
+      %>
+      <li class="treeview menu-open">
+        <a href="/cms/product">
+          <i class="fa fa-circle-o text-yellow"></i>
+          <span>Product</span>
+          <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+        </a>
+        <ul class="treeview-menu" style="display:block;">
+          <%
+          if(catData.Category.length > 0){
+            catData.Category.forEach(function(cat){
+          %>
+            <li>
+              <a href="/cms/category/<%= cat.Id %>"><i class="fa fa-circle-o"></i> <%= cat.Name %></a>
+            </li>
+          <%
+            });
+          }
+          %>
+        </ul>
+      </li>
+      <li><a href="/cms/order"><i class="fa fa-circle-o text-red"></i> <span>Orders</span></a></li>
+      <%
+      }
+      %>
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>

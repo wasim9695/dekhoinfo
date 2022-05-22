@@ -1,0 +1,222 @@
+<%
+  var catData = {};
+  if(!cmsData){}else{
+    catData = cmsData;
+  }
+%>
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title> CarryLush Application Management | Dashboard</title>
+      <% include partials/cms/cssList %>
+   </head>
+   <body class="hold-transition skin-blue sidebar-mini">
+      <div class="wrapper">
+         <% include partials/cms/header %>
+         <%- include('partials/cms/leftNav',{catData : catData}) %>
+         <!-- Content Wrapper. Contains page content -->
+         <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+               <h1>
+                 Banner
+                  <small></small>
+               </h1>
+               <ol class="breadcrumb">
+                  <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                  <li class="active">Banner</li>
+               </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+               <div class="row">
+                 <div class="col-xs-12">
+         <div class="box">
+           <div class="box-header">
+             <h3 class="box-title">Banner <span>(<%= catData.Banner.length %>)</span></h3>
+             <div class="box-tools">
+               <span data-toggle="modal" data-target="#modal-success" class="label label-success">+ Add New Banner</span>
+             </div>
+           </div>
+           <!-- /.box-header -->
+           <div class="box-body table-responsive no-padding">
+             <table class="table table-hover">
+               <thead>
+                 <tr>
+                   <th>Image</th>
+                   <th>Name</th>
+                   <th>LinkText</th>
+                   <th>BannerLink</th>
+                   <th>Description</th>
+                   <th class="action-col">Action</th>
+                 </tr>
+               </thead>
+               <tbody>
+               <% if(catData){
+                 catData.Banner.forEach(function(cat){
+                %>
+                <tr id="<%= cat.Id %>" class="clickableRow category">
+                  <!-- <td><= cat.Id %></td> -->
+                  <td class="catImage"><img class="img-bnr-image" src="/cms/images/banner/<%= cat.BannerImage %>" /></td>
+                  <td class="catName"><%= cat.BannerName %></td>
+                  <td class="catLinkText"><%= cat.LinkText %></td>
+                  <td class="catBannerLink"><%= cat.BannerLink %></td>
+                  <td class="catDesc"><p class="elipsis"><%= cat.BannerDescription %></p></td>
+                  <td>
+                    <span data-catId="<%= cat.Id %>" data-toggle="modal" data-target="#modal-warning" class="label label-warning editBanner">Edit</span>
+                    <%if(cat.IsActive == 0){%>
+                      <span data-catId="<%= cat.Id %>" data-val="1" data-toggle="modal" data-target="#modal-danger" class="label label-success activateBanner">Activate</span>
+                    <%}else{%>
+                      <span data-catId="<%= cat.Id %>" data-val="0" data-toggle="modal" data-target="#modal-danger" class="label label-danger deActivateBanner">DEActivate</span>
+                    <%}%>
+                  </td>
+                </tr>
+
+                <%
+              });
+               }
+               %>
+             </tbody></table>
+           </div>
+           <!-- /.box-body -->
+         </div>
+         <!-- /.box -->
+       </div>
+               </div>
+            </section>
+            <!-- /.content -->
+         </div>
+         <!-- /.content-wrapper -->
+         <% include partials/cms/footer %>
+         <!--  include partials/cms/rightNav  -->
+      </div>
+      <% include partials/cms/jsList %>
+
+      <!--model popup-->
+      <div class="modal modal-warning fade" id="modal-warning" style="display: none;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span></button>
+              <h4 class="modal-title">Warning Modal</h4>
+            </div>
+            <div class="modal-body">
+              <form id="editBannerForm" role="form">
+                <input type="hidden" name="Id" id="editBannerId" value="" />
+                <div class="box-body">
+                  <div class="form-group">
+                    <label >Name</label>
+                    <input type="text" name="BannerName" class="form-control" id="editBannerName" placeholder="Enter banner name">
+                  </div>
+                  <div class="form-group">
+                     <label>Choose Banner Image</label>
+                     <div class="main-img-box">
+                          <input id="editHpBannerImage" type="file"  />
+                          <input type="hidden" id="editBannerImage" name="BannerImage" value="" />
+                          <img class="img-prvw" id="editBannerImg" alt="Click to choose home page banner image" src="">
+                          <label class="inputLbl" for="editHpBannerImage"></label>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Link Text</label>
+                    <input type="text" name="LinkText" class="form-control" id="editLinkText" placeholder="Enter banner name">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Banner Link</label>
+                    <input type="text" name="BannerLink" class="form-control" id="editBannerLink" placeholder="Enter banner name">
+                  </div>
+                  <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="BannerDescription" id="editBannerDescription" class="form-control" rows="3" placeholder="Enter banner description"></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+              <button id="editBanner" type="button" class="btn btn-outline">Save changes</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <div class="modal modal-danger fade" id="modal-danger" style="display: none;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+              <h4 class="modal-title">Activate/DEActivate Banner</h4>
+            </div>
+            <div class="modal-body">
+              <form id="activateBannerForm" role="form">
+                <p>Are you sure you want to change the activation satus?</p>
+                <input type="hidden" name="Id" class="form-control" id="activationBannerId">
+                <input type="hidden" name="IsActive" class="form-control" id="IsActiveBanner" >
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+              <button id="activateBanner" type="button" class="btn btn-outline">Save changes</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <div class="modal modal-success fade" id="modal-success" style="display: none;">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Upload Banner Image</h4>
+              </div>
+              <div class="modal-body">
+            <form id="newBannerForm" role="form">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Name</label>
+                  <input type="text" name="BannerName" class="form-control" id="BannerName" placeholder="Enter banner name">
+                </div>
+                <div class="form-group">
+                   <label>Choose Banner Image</label>
+                   <div class="main-img-box">
+                        <input id="hpBannerImage" type="file" />
+                        <input type="hidden" id="BannerImage" name="BannerImage" value="" />
+                        <img id="bannerImg" alt="Click to choose home page banner image" src="">
+                        <label class="inputLbl" for="hpBannerImage">
+                      </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Link Text</label>
+                  <input type="text" name="LinkText" class="form-control" id="LinkText" placeholder="Enter banner name">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Banner Link</label>
+                  <input type="text" name="BannerLink" class="form-control" id="BannerLink" placeholder="Enter banner name">
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea name="BannerDescription" id="BannerDescription" class="form-control" rows="3" placeholder="Enter banner description"></textarea>
+                </div>
+              </div>
+            </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                <button id="createNewBanner" type="button" class="btn btn-outline">Save changes</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+
+   </body>
+</html>

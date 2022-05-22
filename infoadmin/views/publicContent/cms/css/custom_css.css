@@ -1,0 +1,25 @@
+.skin-blue.custm_color .content-wrapper {
+  background-color: #f1f5f8;
+}
+
+.skin-blue.custm_color .main-header .navbar {
+  background-color: #fff;
+}
+
+.skin-blue.custm_color.layout-top-nav .main-header .navbar {
+  min-height: 68px;
+}
+.nav>li.li-nav.disabled>a{
+  color: rgb(255, 255, 255);
+  background-color: #57ab2f;
+  border-top-color: #57ab2f;
+}
+
+.skin-blue.custm_color .nav-pills>li.li-nav.active>a, 
+.skin-blue.custm_color .nav-pills>li.li-nav.active>a:focus,
+.skin-blue.custm_color .nav-pills>li.li-nav.active>a:hover {
+  color: #777;
+  background-color: transparent;
+  border-top-color: #57ab2f;
+}
+.order-status-action label{margin: 0px 5px 0px 5px;}

@@ -1,0 +1,108 @@
+<%
+  function getDate(date){
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var dt = new Date(date);
+    var dateStr = dt.getDate() +'-'+ months[dt.getMonth()]+'-'+dt.getFullYear();
+    return dateStr;
+  }
+%>
+
+<div class="box">
+  <div class="box-header">
+    <h3 class="box-title"><%= title %></h3>
+    <span class="pull-right">
+        <button id="exportCustomerData" type="button" class="btn btn-warning">Export Customer Data in Excel</button>
+     </span>
+  </div>
+  <div class="box-body no-padding">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th style="width: 10px">Id</th>
+        <th>Cutomer Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Total Orders</th>
+        <th>Address</th>
+        <th>Pincode</th>
+        <th>Register On</th>
+        <% if(title.indexOf('Recent') == -1){%>
+        <th class="action-col">Action</th>
+        <%}%>
+      </tr>
+      </thead>
+      <tbody>
+      <%
+        catData.Customer.forEach(function(data,index){
+      %>
+        <tr id="customer_<%= data.Id %>">
+          <td><%= data.Id %></td>
+          <td><%= data.Name %></td>
+          <td><%= data.Email %></td>
+          <td><%= data.Phone %></td>
+          <td><%= data.TotalOrders %></td>
+          <td><%= data.Address %></td>
+          <td><%= data.Pincode %></td>
+          <td><%= getDate(data.RecordTime) %></td>
+          <% if(title.indexOf('Recent') == -1){%>
+          <td>
+            <% if(data.AprovalStatus == 0){%>
+              <span data-Id="<%= data.Id %>" data-toggle="modal" data-target="#modal-aproveCustomer" class="label label-success aproveCustomer">Aprove</span>
+            <%}else{%>
+              <span data-Id="<%= data.Id %>" data-toggle="modal" data-target="#modal-suspendCustomer" class="label label-warning suspendCustomer">Suspend</span>
+            <%}%>
+          </td>
+          <%}%>
+        </tr>
+      <%
+        })
+      %>
+    </tbody></table>
+  </div>
+</div>
+
+
+
+<div class="modal modal-warning fade" id="modal-suspendCustomer" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Suspend Customer</h4>
+      </div>
+      <div class="modal-body">
+        <form id="suspendCustomerForm" role="form">
+          <p>Are you sure you want to suspend this customer?</p>
+          <p>He will not be able to login on the website.</p>
+          <input type="hidden" name="CustomerId" class="form-control" id="suspendCustomerId">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+        <button id="suspendCustomer" type="button" class="btn btn-outline">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal modal-success fade" id="modal-aproveCustomer" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Aprove Customer</h4>
+      </div>
+      <div class="modal-body">
+        <form id="aproveCustomerForm" role="form">
+          <p>Are you sure you want to aprove this customer?</p>
+          <input type="hidden" name="CustomerId" class="form-control" id="aproveCustomerId">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+        <button id="aproveCustomer" type="button" class="btn btn-outline">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

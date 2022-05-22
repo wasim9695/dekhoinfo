@@ -1,0 +1,71 @@
+<div class="inner-banner inner-bg9">
+    <div class="container">
+        <div class="inner-title">
+            <h3>Sign Up</h3>
+            <ul>
+                <li><a routerLink="/">Home</a></li>
+                <li><i class='bx bxs-chevrons-right'></i></li>
+                <li>Sign Up</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<section class="sign-up-area ptb-100">
+    <div class="container">
+        <div class="contact-wrap-form sign-in-width">
+            <div class="scetion-title text-center">
+                <span>Sign Up</span>
+                <h2>Create An Account!</h2>
+                <p>with your social network</p>
+                <!-- <ul class="sign-social-icon">
+                    <li><a href="#"><i class='bx bxl-facebook'></i></a></li>
+                    <li><a href="#"><i class='bx bxl-twitter' ></i></a></li>
+                    <li><a href="#"><i class='bx bxl-google-plus'></i></a></li>
+                </ul> -->
+            </div>
+
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <input class="form-control" formControlName="Name" type="text" name="Name" placeholder="Username"
+                            [ngClass]="{ 'is-invalid': submitted && f.Name.errors }" />
+                            <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+                                <div *ngIf="f.Name.errors.required">Name is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <div class="form-group">
+                            <input class="form-control" formControlName="Email" type="email" name="Email" placeholder="Email"
+                            [ngClass]="{ 'is-invalid': submitted && f.Email.errors }" />
+                            <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
+                                <div *ngIf="f.Email.errors.required">Email is required</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-group">
+                            <input class="form-control" formControlName="Password" type="password" name="Password" placeholder="Password"
+                            [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" />
+                            <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+                                <div *ngIf="f.Password.errors.required">Password is required</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 text-center">
+                        <button class="default-btn btn-two sign-btn" type="submit">Sign Up</button>
+                    </div>
+
+                    <div class="col-12">
+                        <p class="account-desc">Already have an account? <a routerLink="/sign-in">Sign In</a></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

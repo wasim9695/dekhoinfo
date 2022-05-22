@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Seller Registration |  CarryLush</title>
+  <link rel="stylesheet" href="/cms/css/custom_css.css">
+  <% include partials/cms/cssList %>
+</head>
+<body class="skin-blue custm_color layout-top-nav">
+<div class="wrapper">
+  <header class="main-header">
+      <nav class="navbar navbar-static-top">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="/cms" class="navbar-brand"> <img src="/cms/images/logo-color.png" alt=""></a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+              <i class="fa fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+  <div class="content-wrapper">
+    <section>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="row">
+              <div class="col-xs-12">
+                  <ul class="nav nav-pills nav-justified setup-panel" id="myNav">
+                      <li id="navStep1" class="li-nav <%= (step == 1)?'active':'disabled'%>" step="#step-1">
+                          <a>
+                              <h4 class="list-group-item-heading">Seller Registration</h4>
+                          </a>
+                      </li>
+                      <li id="navStep2" class="li-nav <%= (step == 2)?'active':'disabled'%>" step="#step-2">
+                          <a>
+                              <h4 class="list-group-item-heading">Seller Inforamtion</h4>
+                          </a>
+                      </li>
+                      <li id="navStep3" class="li-nav <%= (step == 3)?'active':'disabled'%>" step="#step-3">
+                          <a>
+                              <h4 class="list-group-item-heading">Tax Details</h4>
+                          </a>
+                      </li>
+                      <li id="navStep4" class="li-nav <%= (step == 4)?'active':'disabled'%>" step="#step-4">
+                          <a>
+                              <h4 class="list-group-item-heading">Seller Interview</h4>
+                          </a>
+                      </li>
+                      <li id="navStep5" class="li-nav <%= (step == 5)?'active':'disabled'%>" step="#step-5">
+                          <a>
+                              <h4 class="list-group-item-heading">Dashboard</h4>
+                          </a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <%
+          if(step == 1){
+          %>
+          <div class="register-box" id="step-1">
+            <div class="register-box-body">
+              <p class="login-box-msg">Register a new Seller</p>
+              <form id="SellerRegistrationStep1" onsubmit="return false" action="/createSeller" method="post">
+                <div class="form-group has-feedback">
+                  <input type="text" name="SellerName" required class="form-control" placeholder="Full name">
+                  <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                  <input type="email" name="Email" required class="form-control" placeholder="Email">
+                  <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                  <input type="number" pattern="[0-9]" maxlength="10" required name="Phone" class="form-control" placeholder="Phone">
+                  <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                  <input type="password" name="Password" required class="form-control" placeholder="Password">
+                  <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                  <div class="col-xs-8">
+                    <div class="checkbox icheck">
+                      <label class="">
+                        <div class="icheckbox_square-blue checked" aria-checked="true" aria-disabled="false" style="position: relative;"><input type="checkbox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> I agree to the <a href="#">terms</a>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <button data-step="1" id="registerSeller" type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                  </div>
+                </div>
+              </form>
+              <div class="social-auth-links text-center">
+                <p>- OR -</p>
+              </div>
+              <a href="/cms" class="text-center">I already have a membership</a>
+            </div>
+          </div>
+          <%
+        }else if(step == 2){
+          %>
+          <div class="register-box" id="step-2">
+            <div class="register-box-body">
+              <p class="login-box-msg">Tell us about your business</p>
+              <form id="SellerRegistrationStep2" onsubmit="return false" action="/createSeller" method="post">
+                <div class="form-group has-feedback">
+                  <input type="hidden" name="Id" value="<%= SellerId %>" >
+                  <input type="text" name="StoreName" class="form-control" placeholder="Store Name">
+                  <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                  <input type="text" name="Pincode" class="form-control" placeholder="Pincode">
+                </div>
+                <div class="form-group has-feedback">
+                  <input type="text" name="Address1" class="form-control" placeholder="Address line 1">
+                </div>
+                <div class="form-group has-feedback">
+                  <input type="text" name="Address2" class="form-control" placeholder="Address line 2">
+                </div>
+                <div class="form-group has-feedback">
+                  <label>City</label>
+                  <select name="City" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                    <option value="Ahmedabad" selected="selected">Ahmedabad</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Jamshedpur">Jamshedpur</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Patna">Patna</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Surat">Surat</option>
+                    <option value="Vijayawada">Vijayawada</option>
+                    <option value="Visakhapatnam">Visakhapatnam</option>
+                    <option value="Lucknow">Lucknow</option>
+                    <option value="Dehradun">Dehradun</option>
+                  </select>
+                </div>
+                <div class="form-group has-feedback">
+                  <label>State</label>
+                  <select name="State" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                    <option value="Assam">Assam</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Chandigarh">Chandigarh</option>
+                    <option value="Chhattisgarh">Chhattisgarh</option>
+                    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                    <option value="Daman and Diu">Daman and Diu</option>
+                    <option value="Delhi" selected="selected">Delhi</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                    <option value="Jharkhand">Jharkhand</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Lakshadweep">Lakshadweep</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Manipur">Manipur</option>
+                    <option value="Meghalaya">Meghalaya</option>
+                    <option value="Mizoram">Mizoram</option>
+                    <option value="Nagaland">Nagaland</option>
+                    <option value="Orissa">Orissa</option>
+                    <option value="Pondicherry">Pondicherry</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Sikkim">Sikkim</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Tripura">Tripura</option>
+                    <option value="Uttaranchal">Uttaranchal</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="West Bengal">West Bengal</option>
+                  </select>
+                </div>
+                <div class="form-group has-feedback">
+                  <button data-step="2" id="registerSeller" type="submit" class="btn btn-primary btn-block btn-flat">Next</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <%
+        }else if(step == 3){
+          %>
+          <div class="register-box" id="step-3">
+            <div class="register-box-body">
+              <p class="login-box-msg">Tell us about your business</p>
+              <form id="SellerRegistrationStep3" onsubmit="return false" action="/createSeller" method="post">
+                <input type="hidden" name="Id" value="<%= SellerId %>" >
+                <!--Tax-->
+                <div class="form-group has-feedback">
+                  <label>Do you have GST Number?</label>
+                  <div>
+                    <span>
+                      <input value="Yes" id="gst_yes" type="radio" name="GST" class="flat-red">
+                      <label for="gst_yes">Yes</label>
+                    </span>
+                    <span>
+                      <input value="No" id="gst_no" type="radio" name="GST" class="flat-red">
+                      <label for="gst_no">No</label>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group has-feedback">
+                  <select name="GSTState" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                    <option selected="selected">Delhi</option>
+                    <option>Maharashtra</option>
+                    <option>Karnataka</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <div class="form-group has-feedback">
+                  <input type="text" name="ProvisonalGSTIN" class="form-control" placeholder="Provisonal GST IN">
+                  <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                  <input type="text" name="PANNumber" class="form-control" placeholder="PAN Number">
+                  <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="form-group">
+                  <button data-step="3" id="registerSeller" type="submit" class="btn btn-primary btn-block btn-flat">Next</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <%
+        }else if(step == 4){
+          %>
+          <div class="register-box" id="step-4">
+            <div class="register-box-body">
+              <p class="login-box-msg">Tell us about your business</p>
+              <form id="SellerRegistrationStep4" onsubmit="return false" action="/createSeller" method="post">
+                <input type="hidden" name="Id" value="<%= SellerId %>" >
+                <!--Personal Interview-->
+                <div class="form-group">
+                  <label>Choose Categories you wish to sell</label>
+                  <select multiple data-placeholder="Select a State" name="Categories" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                    <%
+                      var catData = {};
+                      if(!cmsData){}else{
+                        catData = cmsData;
+                      }
+                    %>
+
+                    <%
+                    catData.Category.forEach(function(data){
+                    %>
+                      <option value="<%= data.Id %>"><%= data.Name %></option>
+                    <%
+                    });
+                    %>
+                  </select>
+                </div>
+                <div class="form-group has-feedback">
+                  <label>Where do you get products from?</label>
+                  <div>
+                    <span>
+                      <input id="imanufacture" value="I Manufacture them" type="radio" name="GetProductFrom" class="flat-red">
+                      <label for="imanufacture">
+                        I Manufacture them
+                      </label>
+                    </span>
+                    <span>
+                      <input id="iimport" value="I Import Them" type="radio" name="GetProductFrom" class="flat-red">
+                      <label for="iimport">
+                        I Import Them
+                      </label>
+                    </span>
+                    <span>
+                      <input id="iresellproduct" value="I Resell Product That Buy" type="radio" name="GetProductFrom" class="flat-red">
+                      <label for="iresellproduct">
+                        I Resell Product That Buy
+                      </label>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group has-feedback">
+                  <label>What is your anual turn over?</label>
+                  <div>
+                    <span>
+                      <input id="anualIncomeBelow10" value="below 10 lakh" type="radio" name="AnualIncome" class="flat-red">
+                      <label for="anualIncomeBelow10">
+                        Below 10 Lakh
+                      </label>
+                    </span>
+                    <span>
+                      <input id="anualIncomeAbove10" type="radio" value="above 10 lakh" name="AnualIncome" class="flat-red">
+                      <label for="anualIncomeAbove10">
+                        Above 10 Lakh
+                      </label>
+                    </span>
+                  </div>
+
+                </div>
+                <div class="form-group has-feedback">
+                  <label>Do you sell in other website?</label>
+                  <div>
+                    <span>
+                      <input id="SellingOtherSiteYes" value="Yes" type="radio" name="SellingOtherWebsite" class="flat-red">
+                      <label for="SellingOtherSiteYes">
+                        Yes
+                      </label>
+                    </span>
+                    <span>
+                      <input id="SellingOtherSiteNo" value="No" type="radio" name="SellingOtherWebsite" class="flat-red">
+                      <label for="SellingOtherSiteNo">
+                        No
+                      </label>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group has-feedback">
+                  <button data-step="4" id="registerSeller" type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <%
+        }else if(step == 5){
+          %>
+          <div class="register-box" id="step-5">
+            <div class="register-box-body">
+              <p class="login-box-msg">Thank you for resitering with us.</p>
+              <p class="login-box-msg">Welcome to the  CarryLush content management system.</p>
+              <a class="btn btn-primary btn-block btn-flat" href="/cms">Continue to Dashboard</a>
+            </div>
+          </div>
+          <%
+        }
+          %>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<% include partials/cms/jsList %>
+<script type="text/javascript">
+  var sellerRegistration = (function(){
+    /*Main Functions*/
+    var refreshAll = function(){
+      setTimeout(function(){
+        location.reload();
+      } , 1000);
+    }
+    var getAjaxResponse = function(Url,Data,method,callbackFun){
+      $.ajax({
+        method: method,
+        url: Url,
+        data: Data
+      }).done(function( msg ) {
+        callbackFun(msg);
+      });
+    }
+    var resSteps = function(data){
+      if(data!=null){
+        if(data.status){
+          window.location = '/sellerRegistration';
+        }else{
+          alert(data.data);
+        }
+      }
+    }
+    var sellerRegisterationSteps = function(_this){
+      var data = {};
+      data = _this.parents('form#SellerRegistrationStep'+_this.attr('data-step')).serializeArray();
+      getAjaxResponse("/createSeller" , data ,"post", resSteps);
+    }
+
+    /*Binding Functions*/
+    var bindEvent = (function(){
+      /*Registration Step1*/
+      $('#registerSeller').on('click' , function(){
+        sellerRegisterationSteps($(this));
+      })
+    })();
+  });
+  sellerRegistration();
+</script>
+</body>
+</html>
