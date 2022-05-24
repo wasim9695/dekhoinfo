@@ -15,27 +15,26 @@
     <div class="container">
         <div class="scetion-title text-center">
             <h2>Our Regular Blog Post</h2>
-            <p>What indication best sick be project proposal in attempt, train of the showed some a forth. That homeless, won't many of goals thoughts volumes felt.</p>
-        </div>
+            <p>We care about your post</p></div>
 
         <div class="row pt-45">
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-4 col-md-6" *ngFor="let postDatas of postData.data">
                 <div class="blog-card">
-                    <a routerLink="/blog-details"><img src="assets/img/blog/blog1.jpg" alt="Blog Images"></a>
+                    <a routerLink="/blog-details"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHSo1cI7l1W4WsgBp9kBN2bNctaOHZUDLXwLyobn57rPRvXKj3VOaBWfiu664TndnmmRk&usqp=CAU" alt="Blog Images"></a>
                     
                     <div class="blog-content">
-                        <a routerLink="/blog-details"><h3>Work Once Print 100+</h3></a>
+                        <a routerLink="/blog-details"><h3>{{postDatas.cTitle}}</h3></a>
                         <ul class="blog-admin">
-                            <li><a routerLink="/"><i class='bx bxs-user'></i>Admin</a></li>
-                            <li><i class='bx bx-calendar-alt'></i> 18 May 2020</li>
+                            <li><a routerLink="/"><i class='bx bxs-user'></i>{{postDatas.Name}} </a></li>
+                            <li><i class='bx bx-calendar-alt' ></i> {{postDatas.RecordTime}}</li>
                         </ul>
-                        <p>Lorem ipsum dolor sit amet, consect is etur adipiscing elit.</p>
-                        <a routerLink="/blog-details" class="read-more-btn">Read More <i class='bx bxs-chevrons-right'></i></a>
+                        <p>{{postDatas.paraGraph | slice: 0: 30}}</p>
+                        <a href="javascript:void();" (click)="detailPage(postDatas.id)" class="read-more-btn">Read More <i class='bx bxs-chevrons-right'></i></a>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6">
+            <!-- <div class="col-lg-4 col-md-6">
                 <div class="blog-card">
                     <a routerLink="/blog-details"><img src="assets/img/blog/blog2.jpg" alt="Blog Images"></a>
                     
@@ -113,7 +112,7 @@
                         <a routerLink="/blog-details" class="read-more-btn">Read More <i class='bx bxs-chevrons-right'></i></a>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="col-lg-12">
                 <div class="pagination-area">
