@@ -2,9 +2,7 @@
 var express = require('express');
 var app = express();
 var compression = require('compression');
-
 app.use(compression());
-
 var bodyParser = require('body-parser');
 var sanitizer = require('express-sanitizer');
 var methodOverride = require('method-override');

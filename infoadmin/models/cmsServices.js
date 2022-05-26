@@ -1,3 +1,4 @@
+const { ConsoleReporter } = require('jasmine');
 var con = require('../config/connectionServices');
 var connection = con.connection;
 
@@ -41,10 +42,30 @@ exports.renderCategory = function(req , res){
       var JSONData= {};
       JSONData.Category = results;
       JSONData.Profile = req.session.seller['profile'];
+      console.log(JSONData);
       res.render("cmsCategory" , {cmsData : JSONData});
     }
   });
 }
+exports.renderCreatePost = function(req , res){
+  var myActualQuery = 'select * from createpost';
+  connection.query(myActualQuery, req.body, function (error, results, fields) {
+    if (error){
+        res.json({
+            status:false,
+            message:'there are some error with query',
+            data : (!results)?error.sqlMessage:results
+        })
+    }else{
+      var JSONData= {};
+      JSONData.Categorys = results;
+      JSONData.Profile = req.session.seller['profile'];
+      console.log(JSONData);
+      res.render("cmsAllPosts" , {Categorys : JSONData});
+    }
+  });
+}
+
 exports.renderCoupons = function(req , res){
   var myActualQuery = 'select * from tbl_category cat where cat.IsActive = 1;select * from tbl_coupons Where IsActive = 1;Select s.Id, s.SellerName from tbl_seller s where AccessType = "Manager" AND IsActive = 1';
   connection.query(myActualQuery, req.body, function (error, results, fields) {

@@ -467,6 +467,25 @@ var myCms = (function(){
     var catId = _this.attr('data-catId');
     $('#deleteCategoryForm #deleteCatId').val(_this.attr('data-catId'));
   }
+
+// open edit posts
+
+var openEditPost = function(_this){
+  var catName = $('#'+_this.attr('data-catId')).find('.catName').text();
+  console.log("hello", catName);
+  // var catDesc = $('#'+_this.attr('data-catId')).find('.catDesc').text();
+  // $('#editCategoryForm #editCatId').val(_this.attr('data-catId'));
+  $('#editpostForm #editCatName').val(catName);
+  // $('#editCategoryForm #editCatDesc').val(catDesc);
+}
+
+var openDeletePost = function(_this){
+  var catId = _this.attr('data-catId');
+  $('#deletePostForm #deleteCatId').val(_this.attr('data-catId'));
+}
+// end here
+
+
   /*Coupons*/
 
   var createCoupons = function(){
@@ -1014,6 +1033,11 @@ var myCms = (function(){
       openAddSubCategory($(this));
     })
 
+    // create post click
+    $('.editpost').on('click' , function(){
+      openEditPost($(this));
+    })
+    // end here
     /*Category*/
     $('#createNewCategory').on('click' , function(){
       createCategory();

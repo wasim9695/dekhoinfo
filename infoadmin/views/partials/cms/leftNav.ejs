@@ -8,6 +8,7 @@
       <%
         if(catData.Profile.AccessType == "Admin"){
       %>
+      
       <li><a href="/cms/category"><i class="fa fa-circle-o text-red"></i> <span>Category</span></a></li>
       <li><a href="/cms/subcategory"><i class="fa fa-circle-o text-aqua"></i> <span>Sub Category</span></a></li>
       <li class="treeview menu-open">
@@ -16,20 +17,9 @@
           <span>Product Listing</span>
           <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
         </a>
-        <ul class="treeview-menu" style="display:block;">
-          <%
-          if(catData.Category.length > 0){
-            catData.Category.forEach(function(cat){
-          %>
-            <li>
-              <a href="/cms/category/<%= cat.Id %>"><i class="fa fa-circle-o"></i> <%= cat.Name %></a>
-            </li>
-          <%
-            });
-          }
-          %>
-        </ul>
+        
       </li>
+      <li><a href="/cms/createPost"><i class="fa fa-circle-o text-red"></i> <span>AllPost</span></a></li>
       <li><a href="/cms/productSequence"><i class="fa fa-circle-o text-red"></i> <span>Product Sequence</span></a></li>
       <li><a href="/cms/seller"><i class="fa fa-circle-o text-aqua"></i> <span>Seller</span></a></li>
       <li><a href="/cms/customer"><i class="fa fa-circle-o text-red"></i> <span>Customers</span></a></li>

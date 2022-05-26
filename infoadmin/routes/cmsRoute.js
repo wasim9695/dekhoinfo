@@ -10,6 +10,7 @@ var isLoggedIn = function(req , res , next){
 
 router.get("/cms" , isLoggedIn , cmsServices.renderCMS);
 router.get("/cms/category" , isLoggedIn , cmsServices.renderCategory);
+router.get("/cms/createPost" , isLoggedIn , cmsServices.renderCreatePost);
 router.get("/cms/coupons" , isLoggedIn , cmsServices.renderCoupons);
 router.get("/cms/subcategory" , isLoggedIn , cmsServices.renderSubCategory);
 router.get("/cms/category/:catId" , isLoggedIn , cmsServices.renderCategoryDetails);
